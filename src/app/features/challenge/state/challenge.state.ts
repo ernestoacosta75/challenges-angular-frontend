@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
-import { GetChallenge } from "./challenge.actions";
-import { ChallengeStateModel } from "./challenge.model";
-import { ChallengeApiService } from "../services/challenge-api-service";
+import { GetChallenge } from "@features/challenge/state/challenge.actions";
+import { ChallengeStateModel } from "@features/challenge/state/challenge.model";
+import { ChallengeApiService } from "@features/challenge/services/challenge-api-service";
 import { tap } from "rxjs";
 
 @State({

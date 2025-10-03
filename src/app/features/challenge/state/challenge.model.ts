@@ -1,3 +1,5 @@
+export type ChallengesFilter = 'all' | 'wrong' | 'successful';
+
 export interface ChallengeModel {
   id: string;
   factorA: number;
@@ -9,4 +11,5 @@ export interface ChallengeModel {
 
 export interface ChallengeStateModel {
     challenges: ChallengeModel[];
+    filter?: ChallengesFilter;
 }

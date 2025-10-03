@@ -2,17 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChallengeState } from './state/challenge.state';
 import { NgxsModule } from '@ngxs/store';
-import { ChallengeApiService } from './services/challenge-api-service';
-import { ChallengesList } from './components/challenges-list/challenges-list';
-
-
+import { ChallengeApiService } from '@features/challenge/services/challenge-api-service';
+import { ChallengesList } from '@features/challenge/components/challenges-list/challenges-list';
+import { ChallengeManagement } from '@features/challenge/components/challenge-management/challenge-management';
+import { MaterialModule } from '@material/material-module';
 
 @NgModule({
   declarations: [
-    ChallengesList
+    ChallengesList,
+    ChallengeManagement
   ],
   imports: [
     CommonModule,
+    MaterialModule,
     NgxsModule.forFeature([ChallengeState])
   ],
   providers: [

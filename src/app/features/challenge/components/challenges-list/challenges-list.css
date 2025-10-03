@@ -1,0 +1,23 @@
+.item-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+}
+
+.controls {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+:host ::ng-deep mat-card {
+  border: none;
+  box-shadow: none; /* optional — removes elevation shadow */
+  background: transparent; /* optional — if you want no background */
+}
+
+.filter-actions > * + * {
+  margin-left: 8px;
+}

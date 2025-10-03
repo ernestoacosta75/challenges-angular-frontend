@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
-import { SharedModule } from './shared/shared-module';
+import { SharedModule } from '@shared/shared-module';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
@@ -22,7 +22,7 @@ import { NgxsModule } from '@ngxs/store';
     NgxsLoggerPluginModule.forRoot(), 
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: false,
-      name: 'Todo App',
+      name: 'Challenges App',
       maxAge: 50
     })
   ],

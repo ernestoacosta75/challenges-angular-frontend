@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ChallengeModel } from '../../state/challenge.model';
+import { ChallengeModel } from '@features/challenge/state/challenge.model';
 import { Store } from '@ngxs/store';
-import { ChallengeStateSelectors } from '../../state/challenge.selectors';
+import { ChallengeStateSelectors } from '@features/challenge/state/challenge.selectors';
+import { FilterChallenges } from '@features/challenge/state/challenge.actions';
 
 @Component({
   selector: 'app-challenges-list',
@@ -16,6 +17,10 @@ export class ChallengesList implements OnInit{
   constructor(private store: Store) {}
   
   ngOnInit(): void {
-    this.challenges$ = this.store.select(ChallengeStateSelectors.getChallenges);
+    this.challenges$ = this.store.select(ChallengeStateSelectors.filteredChallenges);
+  }
+
+  setFilter = (filter: 'all' | 'wrong' | 'successful') => {
+    this.store.dispatch(new FilterChallenges(filter));
   }
 }
