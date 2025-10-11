@@ -5,6 +5,11 @@ export class GetChallenge {
     constructor() {}
 }
 
+export class GetChallenges {
+    static readonly type = '[ChallengeState] Get Challenges';
+    constructor() {}
+}
+
 export class GetUsers {
     static readonly type = '[ChallengeState] Get Users';
     constructor(public readonly userIds: string[]) {}

@@ -6,11 +6,13 @@ import { ChallengeApiService } from '@features/challenge/services/challenge-api-
 import { ChallengesList } from '@features/challenge/components/challenges-list/challenges-list';
 import { ChallengeManagement } from '@features/challenge/components/challenge-management/challenge-management';
 import { MaterialModule } from '@material/material-module';
+import { ChallengePageContainer } from './containers/challenge-page.container/challenge-page.container';
 
 @NgModule({
   declarations: [
     ChallengesList,
-    ChallengeManagement
+    ChallengeManagement,
+    ChallengePageContainer
   ],
   imports: [
     CommonModule,

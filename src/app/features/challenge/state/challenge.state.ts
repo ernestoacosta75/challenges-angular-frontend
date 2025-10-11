@@ -24,7 +24,7 @@ export class ChallengeState {
 
             ctx.setState({
                 ...state,
-                challenges: returnData
+                currentChallenge: returnData
             })
         }))
     }

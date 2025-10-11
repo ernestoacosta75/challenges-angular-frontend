@@ -1,4 +1,4 @@
-export type ChallengesFilter = 'all' | 'wrong' | 'successful';
+export type ChallengesFilter = 'all' | 'resolved' | 'failed';
 
 export interface ChallengeModel {
   id: string;
@@ -10,6 +10,9 @@ export interface ChallengeModel {
 }
 
 export interface ChallengeStateModel {
-    challenges: ChallengeModel[];
-    filter?: ChallengesFilter;
+  loading: boolean;
+  error: string | null;
+  currentChallenge: ChallengeModel;   
+  challenges: ChallengeModel[];
+  filter?: ChallengesFilter;
 }

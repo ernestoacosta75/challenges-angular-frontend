@@ -27,7 +27,9 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "typeCheckHostBindings": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "preserveWhitespaces": false,
+    "enableTemplateCompilerV2": true
   },
   "files": [],
   "references": [
