@@ -27,8 +27,7 @@ import { MaterialModule } from './material/material-module';
       disabled: false,
       name: 'Challenges App',
       maxAge: 50
-    }),
-    ChallengeModule
+    })
   ],
   providers: [
     provideBrowserGlobalErrorListeners()

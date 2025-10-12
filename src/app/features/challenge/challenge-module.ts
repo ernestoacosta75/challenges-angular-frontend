@@ -9,6 +9,7 @@ import { MaterialModule } from '@material/material-module';
 import { ChallengePageContainer } from '@features/challenge/containers/challenge-page.container/challenge-page.container';
 import { ChallengeEditor } from './components/challenge-editor/challenge-editor';
 import { SharedModule } from '@shared/shared-module';
+import { ChallengeRoutingModule } from './challenge-routing.module';
 
 @NgModule({
   declarations: [
@@ -19,12 +20,10 @@ import { SharedModule } from '@shared/shared-module';
   ],
   imports: [
     CommonModule,
+    ChallengeRoutingModule,
     MaterialModule,
     SharedModule,
     NgxsModule.forFeature([ChallengeState])
-  ],
-  exports: [
-    ChallengePageContainer
   ],
   providers: [
     ChallengeApiService
