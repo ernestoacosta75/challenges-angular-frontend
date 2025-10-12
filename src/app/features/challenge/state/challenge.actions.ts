@@ -1,4 +1,4 @@
-import { ChallengesFilter } from "@features/challenge/state/challenge.model";
+import { ChallengeModel, ChallengesFilter } from "@features/challenge/state/challenge.model";
 
 export class GetChallenge {
     static readonly type = '[ChallengeState] Get Challenge';
@@ -17,8 +17,7 @@ export class GetUsers {
 
 export class SendGuess {
     static readonly type = '[ChallengeState] Send Guess';
-    constructor(public readonly user: string, public readonly factorA: number, 
-        public readonly factorB: number, public readonly guess: number) {}
+    constructor(public readonly payload: Partial<ChallengeModel>) {}
 }
 
 export class FilterChallenges {

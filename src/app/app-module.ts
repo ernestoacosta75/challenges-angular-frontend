@@ -7,6 +7,8 @@ import { SharedModule } from '@shared/shared-module';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
+import { ChallengeModule } from './features/challenge/challenge-module';
+import { MaterialModule } from './material/material-module';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import { NgxsModule } from '@ngxs/store';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
+    MaterialModule,
     NgxsModule.forRoot([], {
       developmentMode: true
     }),
@@ -24,7 +27,8 @@ import { NgxsModule } from '@ngxs/store';
       disabled: false,
       name: 'Challenges App',
       maxAge: 50
-    })
+    }),
+    ChallengeModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()

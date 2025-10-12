@@ -1,1 +1,27 @@
-<p>challenge-page.container works!</p>
+<mat-toolbar color="primary">
+    <span>Challenges</span>
+    <span class="spacer"></span>
+</mat-toolbar>
+
+<ng-container *ngIf="editing">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{ editing.id ? 'Challenge Data' : 'New Challenge' }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <app-challenge-editor
+                [challenge]="editing"
+                (save)="onSave($event)"
+                (cancel)="onCancel()"></app-challenge-editor>
+        </mat-card-content>
+    </mat-card>
+</ng-container>
+
+<div class="page mat-typography" fxLayout="column" fxLayoutGap="16px" style="padding:16px;">
+    <app-challenges-list
+        [challenges]="(challenges$ | async) || []"
+        [loading]="(loading$ | async) || false"
+        (rowClicked)="onRowClick($event)"
+        (delete)="onDelete($event)"></app-challenges-list>
+</div>
+

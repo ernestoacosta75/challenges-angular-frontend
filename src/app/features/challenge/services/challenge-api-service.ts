@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ChallengeModel } from '../state/challenge.model';
 
 @Injectable()
 export class ChallengeApiService {
@@ -27,12 +28,12 @@ export class ChallengeApiService {
     });
   }
 
-  sendGuess = (user: string, factorA: number, factorB: number, guess: number) => {
+  sendGuess = (data: Partial<ChallengeModel>) => {
     return this.http.post(`${this.SERVER_URL}${this.POST_RESULT}`, {
-      user: user,
-      factorA: factorA,
-      factorB: factorB,
-      guess: guess
+      user: data.user,
+      factorA: data.factorA,
+      factorB: data.factorB,
+      guess: data.guess
     });
   }
 }

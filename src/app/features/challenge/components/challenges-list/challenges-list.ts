@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChallengeModel } from '@features/challenge/state/challenge.model';
-import { Store } from '@ngxs/store';
-import { ChallengeStateSelectors } from '@features/challenge/state/challenge.selectors';
-import { FilterChallenges } from '@features/challenge/state/challenge.actions';
 
 @Component({
   selector: 'app-challenges-list',
   standalone: false,
   templateUrl: './challenges-list.html',
-  styleUrl: './challenges-list.css'
+  styleUrl: './challenges-list.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChallengesList implements OnInit{
-  challenges$!: Observable<ChallengeModel[]>;
-
-  constructor(private store: Store) {}
+export class ChallengesList {
   
-  ngOnInit(): void {
-    this.challenges$ = this.store.select(ChallengeStateSelectors.filteredChallenges);
-  }
+  pageSize = 10;
+  pageSizeOptions = [10, 50, 100];
+  displayedColumns = ['factorA', 'factorB', 'result', 'guess', 'actions'];
+  
+  @Input() challenges: ChallengeModel [] = [];
+  @Input() loading = false;
+  @Output() rowClicked = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<string>();
 
-  setFilter = (filter: 'all' | 'wrong' | 'successful') => {
-    this.store.dispatch(new FilterChallenges(filter));
-  }
+  onRowClicked = (row: ChallengeModel) => this.rowClicked.emit(row.id);
+
+  onDeleteRow = (evt: MouseEvent, row: ChallengeModel) => this.delete.emit(row.id);
 }
