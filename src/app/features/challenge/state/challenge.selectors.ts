@@ -32,6 +32,10 @@ export class ChallengeStateSelectors {
 
   @Selector([ChallengeState])
   static filteredChallenges(state: ChallengeStateModel) {
+    if (!state || !state.challenges) {
+      return [];
+    }
+    
     const f = state.filter ?? 'all';
 
     if (f === 'all') return state.challenges;

@@ -7,9 +7,9 @@ import { SharedModule } from '@shared/shared-module';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ChallengeModule } from './features/challenge/challenge-module';
 import { MaterialModule } from './material/material-module';
 import { CoreModule } from "./core/core-module";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import { CoreModule } from "./core/core-module";
     CoreModule
 ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     provideBrowserGlobalErrorListeners()
   ],
   bootstrap: [App]
