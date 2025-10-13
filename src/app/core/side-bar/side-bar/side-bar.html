@@ -2,12 +2,17 @@
   <button
     mat-icon-button
     *ngIf="sidenav.mode === 'over'"
-    (click)="sidenav.toggle()"
-  >
+    (click)="sidenav.toggle()">
     <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
     <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
   </button>
-  Responsive side navigation
+  Challenges App
+  <div class="display-right">
+    <button mat-button class="logout-button">
+        <mat-icon style="color: white;margin-right: 8px;">output</mat-icon>
+        <span>Logout</span>
+    </button>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container>
