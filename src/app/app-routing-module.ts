@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: 'challenges',
     loadChildren: () => import('./features/challenge/challenge-module').then(m => m.ChallengeModule)
+  },
+    {
+    path: 'leader-board',
+    loadChildren: () => import('./features/leader-board/leader-board-module').then(m => m.LeaderBoardModule)
   }
 ];
 

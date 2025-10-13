@@ -35,7 +35,7 @@ export class ChallengeStateSelectors {
     const f = state.filter ?? 'all';
 
     if (f === 'all') return state.challenges;
-    if (f === 'successful')
+    if (f === 'resolved')
       return state.challenges.filter((c) => c.factorA * c.factorB === c.guess);
     return state.challenges.filter((c) => c.factorA * c.factorB !== c.guess);
   }

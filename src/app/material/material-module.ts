@@ -14,6 +14,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogActions, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [],
@@ -33,7 +36,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatDialogActions,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatMenuModule
   ],
   exports: [
     MatButtonModule,
@@ -51,7 +57,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatDialogActions,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LeaderboardPageContainer } from './containers/leaderboard-page.container/leaderboard-page.container';
 import { LeaderboardList } from './components/leaderboard-list/leaderboard-list';
 import { LeaderboardItem } from './components/leaderboard-item/leaderboard-item';
+import { LeaderBoardRoutingModule } from './leader-board-routing.module';
 
 
 
@@ -13,7 +14,11 @@ import { LeaderboardItem } from './components/leaderboard-item/leaderboard-item'
     LeaderboardItem
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    LeaderBoardRoutingModule
+  ],
+  exports:[
+    LeaderboardPageContainer
   ]
 })
 export class LeaderBoardModule { }

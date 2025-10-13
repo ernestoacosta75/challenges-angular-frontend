@@ -9,6 +9,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { ChallengeModule } from './features/challenge/challenge-module';
 import { MaterialModule } from './material/material-module';
+import { CoreModule } from "./core/core-module";
 
 @NgModule({
   declarations: [
@@ -20,15 +21,16 @@ import { MaterialModule } from './material/material-module';
     SharedModule,
     MaterialModule,
     NgxsModule.forRoot([], {
-      developmentMode: true
+        developmentMode: true
     }),
-    NgxsLoggerPluginModule.forRoot(), 
+    NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: false,
-      name: 'Challenges App',
-      maxAge: 50
-    })
-  ],
+        disabled: false,
+        name: 'Challenges App',
+        maxAge: 50
+    }),
+    CoreModule
+],
   providers: [
     provideBrowserGlobalErrorListeners()
   ],
