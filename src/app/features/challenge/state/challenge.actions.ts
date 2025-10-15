@@ -5,8 +5,8 @@ export class GetChallenge {
     constructor() {}
 }
 
-export class GetChallenges {
-    static readonly type = '[ChallengeState] Get Challenges';
+export class GetAllAttempts {
+    static readonly type = '[ChallengeState] Get All Attempts';
     constructor() {}
 }
 

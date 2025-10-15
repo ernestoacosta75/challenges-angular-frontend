@@ -22,7 +22,7 @@
 
 <div class="page mat-typography" fxLayout="column" fxLayoutGap="16px" style="padding:16px;">
     <app-challenges-list
-        [challenges]="(challenges$ | async) || []"
+        [attempts]="(allAttempts$ | async) || []"
         [loading]="(loading$ | async) || false"
         (rowClicked)="onRowClick($event)"
         (delete)="onDelete($event)"></app-challenges-list>

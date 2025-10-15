@@ -12,9 +12,9 @@ export class ChallengesList {
   
   pageSize = 10;
   pageSizeOptions = [10, 50, 100];
-  displayedColumns = ['factorA', 'factorB', 'result', 'guess', 'actions'];
+  displayedColumns = ['user', 'factorA', 'factorB', 'result', 'correct', 'actions'];
   
-  @Input() challenges: ChallengeModel [] = [];
+  @Input() attempts: ChallengeModel [] = [];
   @Input() loading = false;
   @Output() rowClicked = new EventEmitter<string>();
   @Output() delete = new EventEmitter<string>();

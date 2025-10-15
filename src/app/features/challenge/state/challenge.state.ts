@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
-import { GetChallenge, SendGuess } from "@features/challenge/state/challenge.actions";
+import { GetAllAttempts, GetChallenge, SendGuess } from "@features/challenge/state/challenge.actions";
 import { ChallengeStateModel } from "@features/challenge/state/challenge.model";
 import { ChallengeApiService } from "@features/challenge/services/challenge-api-service";
 import { tap } from "rxjs";
@@ -31,6 +31,18 @@ export class ChallengeState {
             })
         }))
     }
+
+    @Action(GetAllAttempts)
+    getAllAttempts(ctx: StateContext<ChallengeStateModel>, action: GetAllAttempts) {
+      return this.challengeApiService.getAllAttempts()
+      .pipe(tap((returnData: any) => {
+          const state = ctx.getState();
+          ctx.setState({
+              ...state,
+              challenges: returnData
+          })
+      }))
+    }    
 
     @Action(SendGuess)
     sendGuess(ctx: StateContext<ChallengeStateModel>, action: SendGuess) { 
