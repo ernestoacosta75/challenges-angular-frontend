@@ -5,13 +5,14 @@ export interface ChallengeModel {
   factorA: number;
   factorB: number;
   guess: number;
-  user: string;
+  userAlias: string;
   message: string;
 }
 
 export interface ChallengeStateModel {
   loading: boolean;
   error: string | null;
+  userAlias?: string;
   currentChallenge: ChallengeModel;   
   challenges: ChallengeModel[];
   filter?: ChallengesFilter;

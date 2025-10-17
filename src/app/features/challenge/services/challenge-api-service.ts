@@ -8,7 +8,6 @@ export class ChallengeApiService {
   
   private CHALLENGES_SERVER_URL: string = environment.challengeMsApiUrl;
   private GET_CHALLENGE: string = '/challenges/random';
-  private GET_USERS_BY_IDS: string = '/users';
   private POST_RESULT: string = '/attempts';
   private GET_ALL_RESULTS: string = '/attempts/all';
 
@@ -18,25 +17,17 @@ export class ChallengeApiService {
     return this.http.get(`${this.CHALLENGES_SERVER_URL}${this.GET_CHALLENGE}`);
   }
 
+  getStatsForUser = (userAlias: string) => {
+    return this.http.get(`${this.CHALLENGES_SERVER_URL}${this.POST_RESULT}?alias=${userAlias}`);
+  }    
+
   getAllAttempts = () => {
     return this.http.get(`${this.CHALLENGES_SERVER_URL}${this.GET_ALL_RESULTS}`);
   }  
   
-  getUsers = (userIds: string[]) => {
-    if (!userIds || userIds.length === 0) {
-      throw new Error("No userIds provided");
-    }
-
-    return this.http.get(`${this.CHALLENGES_SERVER_URL}${this.GET_USERS_BY_IDS}`, {
-      params: {
-        userIds: userIds
-      }
-    });
-  }
-
   sendGuess = (data: Partial<ChallengeModel>) => {
     return this.http.post(`${this.CHALLENGES_SERVER_URL}${this.POST_RESULT}`, {
-      user: data.user,
+      userAlias: data.userAlias,
       factorA: data.factorA,
       factorB: data.factorB,
       guess: data.guess

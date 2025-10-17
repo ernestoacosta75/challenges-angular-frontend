@@ -24,6 +24,11 @@ export class ChallengeStateSelectors {
   }
 
   @Selector([ChallengeState])
+  static userAlias(state: ChallengeStateModel) {
+    return state.userAlias ?? '';
+  }
+
+  @Selector([ChallengeState])
   static counts(state: ChallengeStateModel) {
     const all = state.challenges.length;
     const resolved = state.challenges.filter(t => (t.factorA * t.factorB) === t.guess).length;

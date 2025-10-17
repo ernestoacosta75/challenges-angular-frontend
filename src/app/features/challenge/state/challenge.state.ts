@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
-import { GetAllAttempts, GetChallenge, SendGuess } from "@features/challenge/state/challenge.actions";
+import { GetAllAttempts, GetChallenge, GetStatsForUser, SendGuess } from "@features/challenge/state/challenge.actions";
 import { ChallengeStateModel } from "@features/challenge/state/challenge.model";
 import { ChallengeApiService } from "@features/challenge/services/challenge-api-service";
 import { tap } from "rxjs";
 import { append, patch } from "@ngxs/store/operators";
+import * as R from 'ramda';
 
 @State({
-  name: 'challenges',
+  name: 'challengeState',
   defaults: {
     loading: false,
     error: null,
-    items: []
+    challenges: []
   }
 })
 @Injectable()
@@ -32,6 +33,21 @@ export class ChallengeState {
         }))
     }
 
+    @Action(GetStatsForUser)
+    getStatsForUser(ctx: StateContext<ChallengeStateModel>, action: GetStatsForUser) {
+      var userAliasFromState = ctx.getState().userAlias;
+
+      return this.challengeApiService.getStatsForUser(R.pathOr('', ['userAlias'], action))
+      .pipe(tap((returnData: any) => {
+          const state = ctx.getState();
+          ctx.setState({
+              ...state,
+              userAlias: R.pathOr('', ['userAlias'], action),
+              challenges: returnData
+          })
+      }))
+    }     
+
     @Action(GetAllAttempts)
     getAllAttempts(ctx: StateContext<ChallengeStateModel>, action: GetAllAttempts) {
       return this.challengeApiService.getAllAttempts()
@@ -46,12 +62,14 @@ export class ChallengeState {
 
     @Action(SendGuess)
     sendGuess(ctx: StateContext<ChallengeStateModel>, action: SendGuess) { 
+      ctx.setState(patch({ userAlias: R.pathOr('', ['payload', 'userAlias'], action) }));
       return this.challengeApiService.sendGuess(action.payload)
       .pipe(
         tap((result: any) => ctx.setState(patch({
           challenges: append([result]),
           loading: false
         }))),
+        tap(() => ctx.dispatch(new GetStatsForUser(R.pathOr('', ['payload', 'userAlias'], action)))),
         tap(() => ctx.dispatch(new GetChallenge()))
       );
     }    

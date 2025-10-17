@@ -3,13 +3,16 @@
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Factor A</mat-label>
             <input matInput id="factorA" formControlName="factorA"/>
-        </mat-form-field>
-        
+        </mat-form-field>        
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Factor B</mat-label>
             <input matInput id="factorB" formControlName="factorB"/>
         </mat-form-field>        
-
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Alias</mat-label>
+            <input matInput id="alias" formControlName="alias" required />
+            <mat-error *ngIf="alias.invalid && (alias.dirty || alias.touched)">Alias is required</mat-error>
+        </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Guess</mat-label>
             <input matInput id="guess" formControlName="guess" required />

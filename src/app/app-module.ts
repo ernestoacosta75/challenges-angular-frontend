@@ -10,6 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MaterialModule } from './material/material-module';
 import { CoreModule } from "./core/core-module";
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { UserApiService } from './services/user/user-api-service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
-    provideBrowserGlobalErrorListeners()
+    provideBrowserGlobalErrorListeners(),
+    UserApiService
   ],
   bootstrap: [App]
 })

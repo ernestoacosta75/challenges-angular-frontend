@@ -13,16 +13,6 @@ const routes: Routes = [
   }
 ];
 
-// function handleError(error: any) {
-//   console.error('Error loading module:', error);
-//   return {
-//     class: 'StubModule',
-//     factory: () => ({
-//       component:
-//     })
-//   };
-// }
-
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]

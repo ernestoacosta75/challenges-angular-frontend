@@ -18,6 +18,7 @@ export class ChallengeEditor implements OnChanges {
 
   form = new FormGroup({
     id: new FormControl<string | null>(null),
+    alias: new FormControl<string>('', { nonNullable: true, validators: [Validators.required]}),
     factorA: new FormControl<number>({ value: 0, disabled: true }),
     factorB: new FormControl<number>({ value: 0, disabled: true }),
     guess: new FormControl<number>(0, { nonNullable: true, validators: [Validators.required]}),
@@ -25,6 +26,10 @@ export class ChallengeEditor implements OnChanges {
 
   get guess() {
     return this.form.get('guess') as FormControl;
+  }
+
+  get alias() {
+    return this.form.get('alias') as FormControl;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,6 +43,7 @@ export class ChallengeEditor implements OnChanges {
       id:challenge?.id ?? null,
       factorA: challenge?.factorA ?? 0,
       factorB: challenge?.factorB ?? 0,
+      alias: challenge?.userAlias ?? '',
       guess: challenge?.guess ?? 0
     });
 
@@ -56,6 +62,7 @@ export class ChallengeEditor implements OnChanges {
       ...(raw.id ? { id: raw.id } : {}),
       factorA: raw.factorA || undefined,
       factorB: raw.factorB || undefined,
+      userAlias: raw.alias,
       guess: raw.guess
     };
 

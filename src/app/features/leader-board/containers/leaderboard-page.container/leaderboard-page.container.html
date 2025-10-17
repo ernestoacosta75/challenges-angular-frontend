@@ -1,1 +1,8 @@
-<p>leaderboard-page.container works!</p>
+<ng-container>
+    <div class="page mat-typography" fxLayout="column" fxLayoutGap="16px" style="padding:16px;">
+        <app-leaderboard-list
+            [leadersBoard]="(leadersBoard$ | async) || []"
+            [loading]="(loading$ | async) || false">
+        </app-leaderboard-list>
+    </div>
+</ng-container>
