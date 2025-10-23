@@ -1,12 +1,13 @@
 import { LeaderboardApiService } from '@features/leader-board/services/leaderboard-api-service';
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext } from '@ngxs/store';
+import { Action, State, StateContext, Store } from '@ngxs/store';
 import { GetLeadersBoard } from './leader-board.actions';
 import { LeaderBoardRowModel, LeaderBoardStateModel } from './leader-board.model';
 import { of, Observable } from 'rxjs';
 import { map, switchMap, tap, catchError, finalize } from 'rxjs/operators';
 import { UserApiService } from '@app/app/services/user/user-api-service';
 import * as R from 'ramda';
+import { AppState } from '@app/app/state/app.state';
 
 @State({
   name: 'leadersBoardState',
@@ -20,18 +21,18 @@ import * as R from 'ramda';
 export class LeadersBoardState {
   constructor(
     private leaderboardApiService: LeaderboardApiService,
-    private userApiService: UserApiService
+    private userApiService: UserApiService,
+    private store: Store
   ) {}
 
   @Action(GetLeadersBoard)
   getLeadersBoard(ctx: StateContext<LeaderBoardStateModel>, action: GetLeadersBoard) {
-    // indicate loading
     ctx.patchState({ loading: true, error: null });
 
     return this.leaderboardApiService.getLeadersBoard().pipe(
       switchMap((rows: LeaderBoardRowModel[] | undefined) => {
         const rowsArr: LeaderBoardRowModel[] = Array.isArray(rows) ? rows : [];
-
+    
         const userIds: string[] = Array.from(
           new Set(
             rowsArr
@@ -47,20 +48,26 @@ export class LeadersBoardState {
           return of(R.map((r: LeaderBoardRowModel) => ({ ...r, userAlias: 'Unknown'}), rowsArr));
         }
 
-        return (
-          this.userApiService.getUsers(uniqueUserIds) as Observable<
-            Array<{ id?: string; userId?: string; userID?: string; alias?: string; name?: string }>>
-        ).pipe(
-          map((users) => {
-            const usersById = R.indexBy((u: any) => String(u.id ?? u.userId ?? u.userID), users);
+        // TODO: I have already all the users in the AppState. Get their alias from there instead of making another API call.
+        const usersSnapshot: any [] = this.store.selectSnapshot((state: AppState) => {
+          return R.pathOr([], ['appState', 'users'], state);
+        });
 
-            return R.map((row: LeaderBoardRowModel) => {
-              const u = usersById[String(row.userId)];
-              return { ...row, userAlias: u?.alias ?? u?.name ?? 'Unknown' };
-            }, rowsArr) as LeaderBoardRowModel[];
-          }),
-          catchError(() => of(R.map((r: LeaderBoardRowModel) => ({ ...r, userAlias: 'Unknown'}), rowsArr)))
-        );
+        const usersByIdSnapshot = R.indexBy((u: any) => String(u.id ?? u.userId ?? u.userID), usersSnapshot);
+        const missingIds = uniqueUserIds.filter(id => !Object.prototype.hasOwnProperty.call(usersByIdSnapshot, String(id)));
+
+        if (missingIds.length === 0) {
+          // all found in snapshot — enrich and return synchronously
+          const enriched = R.map((row: LeaderBoardRowModel) => {
+            const u = usersByIdSnapshot[String(row.userId)];
+            return { ...row, userAlias: u?.alias ?? u?.name ?? 'Unknown' };
+          }, rowsArr) as LeaderBoardRowModel[];
+
+          return of(enriched);
+        }
+        
+        // Return empty array if no other conditions are met
+        return of([] as LeaderBoardRowModel[]);        
       }),
       tap((enrichedRows: LeaderBoardRowModel[]) =>
         ctx.patchState({ leadersBoard: enrichedRows, error: null })

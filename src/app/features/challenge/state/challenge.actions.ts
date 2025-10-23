@@ -15,8 +15,8 @@ export class GetAllAttempts {
     constructor() {}
 }
 
-export class GetUsers {
-    static readonly type = '[ChallengeState] Get Users';
+export class GetUsersByIds {
+    static readonly type = '[ChallengeState] Get Users By Ids';
     constructor(public readonly userIds: string[]) {}
 }
 

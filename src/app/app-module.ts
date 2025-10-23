@@ -11,6 +11,7 @@ import { MaterialModule } from './material/material-module';
 import { CoreModule } from "./core/core-module";
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { UserApiService } from './services/user/user-api-service';
+import { AppState } from './state/app.state';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { UserApiService } from './services/user/user-api-service';
     AppRoutingModule,
     SharedModule,
     MaterialModule,
-    NgxsModule.forRoot([], {
+    NgxsModule.forRoot([AppState], {
         developmentMode: true
     }),
     NgxsLoggerPluginModule.forRoot(),

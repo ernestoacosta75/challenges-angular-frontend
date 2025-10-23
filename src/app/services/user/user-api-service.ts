@@ -5,7 +5,7 @@ import { environment } from '@app/environments/environment.development';
 @Injectable()
 export class UserApiService {
   private CHALLENGES_SERVER_URL: string = environment.challengeMsApiUrl;
-    private GET_USERS_BY_IDS: string = '/users';
+  private GET_USERS: string = '/users';
     
   constructor(private http: HttpClient) { }
 
@@ -14,6 +14,10 @@ export class UserApiService {
       throw new Error("No userIds provided");
     }
 
-    return this.http.get(`${this.CHALLENGES_SERVER_URL}${this.GET_USERS_BY_IDS}/${userIds}`);
+    return this.http.get(`${this.CHALLENGES_SERVER_URL}${this.GET_USERS}/${userIds}`);
   }
+
+  getAllUsers = () => {
+    return this.http.get(`${this.CHALLENGES_SERVER_URL}${this.GET_USERS}`);
+  }  
 }

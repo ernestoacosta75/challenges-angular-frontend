@@ -6,6 +6,8 @@ import { ChallengeApiService } from "@features/challenge/services/challenge-api-
 import { tap } from "rxjs";
 import { append, patch } from "@ngxs/store/operators";
 import * as R from 'ramda';
+import { UserApiService } from "@app/app/services/user/user-api-service";
+import { GetAllUsers } from "@app/app/state/app.actions";
 
 @State({
   name: 'challengeState',
@@ -18,7 +20,9 @@ import * as R from 'ramda';
 @Injectable()
 export class ChallengeState {
 
-    constructor(private challengeApiService: ChallengeApiService) {}
+    constructor(private challengeApiService: ChallengeApiService,
+      private userApiService: UserApiService
+    ) {}
 
     @Action(GetChallenge)
     getChallenge(ctx: StateContext<ChallengeStateModel>, action: GetChallenge) {
@@ -35,14 +39,14 @@ export class ChallengeState {
 
     @Action(GetStatsForUser)
     getStatsForUser(ctx: StateContext<ChallengeStateModel>, action: GetStatsForUser) {
-      var userAliasFromState = ctx.getState().userAlias;
+      var userAliasFromState = ctx.getState().userAlias ?? '';
 
-      return this.challengeApiService.getStatsForUser(R.pathOr('', ['userAlias'], action))
+      return this.challengeApiService.getStatsForUser(R.pathOr(userAliasFromState, ['userAlias'], action))
       .pipe(tap((returnData: any) => {
           const state = ctx.getState();
           ctx.setState({
               ...state,
-              userAlias: R.pathOr('', ['userAlias'], action),
+              userAlias: R.pathOr(userAliasFromState, ['user', 'alias'], returnData[0]),
               challenges: returnData
           })
       }))
@@ -69,7 +73,8 @@ export class ChallengeState {
           challenges: append([result]),
           loading: false
         }))),
-        tap(() => ctx.dispatch(new GetStatsForUser(R.pathOr('', ['payload', 'userAlias'], action)))),
+        tap(() => ctx.dispatch(new GetStatsForUser(ctx.getState().userAlias ?? ''))),
+        tap(() => ctx.dispatch(new GetAllUsers())),
         tap(() => ctx.dispatch(new GetChallenge()))
       );
     }    
