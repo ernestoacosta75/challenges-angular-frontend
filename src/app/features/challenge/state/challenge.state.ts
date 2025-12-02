@@ -39,7 +39,7 @@ export class ChallengeState {
 
     @Action(GetStatsForUser)
     getStatsForUser(ctx: StateContext<ChallengeStateModel>, action: GetStatsForUser) {
-      var userAliasFromState = ctx.getState().userAlias ?? '';
+      var userAliasFromState = R.pathOr('', ['userAlias'], ctx.getState());
 
       return this.challengeApiService.getStatsForUser(R.pathOr(userAliasFromState, ['userAlias'], action))
       .pipe(tap((returnData: any) => {

@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { Action, State, StateContext, Store } from '@ngxs/store';
 import { GetLeadersBoard } from './leader-board.actions';
 import { LeaderBoardRowModel, LeaderBoardStateModel } from './leader-board.model';
-import { of, Observable } from 'rxjs';
-import { map, switchMap, tap, catchError, finalize } from 'rxjs/operators';
-import { UserApiService } from '@app/app/services/user/user-api-service';
+import { of } from 'rxjs';
+import { switchMap, tap, catchError, finalize } from 'rxjs/operators';
 import * as R from 'ramda';
 import { AppState } from '@app/app/state/app.state';
 
@@ -20,8 +19,7 @@ import { AppState } from '@app/app/state/app.state';
 @Injectable()
 export class LeadersBoardState {
   constructor(
-    private leaderboardApiService: LeaderboardApiService,
-    private userApiService: UserApiService,
+    private leaderboardApiService: LeaderboardApiService, 
     private store: Store
   ) {}
 
@@ -31,8 +29,8 @@ export class LeadersBoardState {
 
     return this.leaderboardApiService.getLeadersBoard().pipe(
       switchMap((rows: LeaderBoardRowModel[] | undefined) => {
-        const rowsArr: LeaderBoardRowModel[] = Array.isArray(rows) ? rows : [];
-    
+        const rowsArr: LeaderBoardRowModel[] = R.defaultTo([], rows); 
+        /**
         const userIds: string[] = Array.from(
           new Set(
             rowsArr
@@ -43,6 +41,14 @@ export class LeadersBoardState {
         );
 
         const uniqueUserIds = Array.from(new Set(userIds));
+        */
+
+        const uniqueUserIds: string[] = R.pipe(
+          R.map((r: LeaderBoardRowModel) => r.userId),    // 1. Get the 'userId' from each row
+          R.filter(Boolean),                              // 2. Filter out all falsy values (null, undefined, empty string)
+          R.map(String),                                  // 3. Ensure all remaining IDs are strings
+          R.uniq                                          // 4. Deduplicate the list
+        ) (rowsArr) as string[];
 
         if (uniqueUserIds.length === 0) {
           return of(R.map((r: LeaderBoardRowModel) => ({ ...r, userAlias: 'Unknown'}), rowsArr));
